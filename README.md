@@ -4,26 +4,16 @@ Scratch 3.0 as a standalone desktop application
 
 ## Developer Instructions
 
-### Prepare `scratch-gui`
+### A note about `scratch-gui`
 
-This step is temporary: eventually, the `scratch-desktop` branch of the Scratch GUI repository will be merged with
-that repository's main development line. For now, though, there's a separate branch:
+Eventually, the `scratch-desktop` branch of the Scratch GUI repository will be merged with that repository's main
+development line. For now, though, the `scratch-desktop` branch holds a few changes that are necessary for the Scratch
+app to function correctly but are not yet merged into the main development branch. If you only intend to build or work
+on the `scratch-desktop` repository then you can ignore this, but if you intend to work on `scratch-gui` as well, make
+sure you use the `scratch-desktop` branch there.
 
-1. Clone the `scratch-gui` repository if you haven't already.
-2. Switch to the `scratch-desktop` branch with `git checkout scratch-desktop`
-3. Build with `BUILD_MODE=dist` and `STATIC_PATH=static`:
-   - macOS, WSL, or Cygwin: run `BUILD_MODE=dist STATIC_PATH=static npm run build` or
-     `BUILD_MODE=dist STATIC_PATH=static npm run watch`
-     - Running `npm run build-gui` in `scratch-desktop` is a shortcut for this when using `npm link`.
-   - CMD: run `set BUILD_MODE=dist` once and `set STATIC_PATH=static` once, then `npm run build` or `npm run watch`
-     any number of times in the same
-     window.
-   - PowerShell: run `$env:BUILD_MODE = "dist"` once and `$env:STATIC_PATH = "static"` once, then `npm run build` or
-     `npm run watch` any number of times in the same window.
-
-If you have run `npm link scratch-gui` (or equivalent) in the `scratch-desktop` working directory, you may be able to
-accomplish the above by running `npm run build-gui` in the `scratch-desktop` directory instead of using the manual
-steps listed above.
+Previously it was necessary to explicitly build `scratch-gui` before building `scratch-desktop`. This is no longer
+necessary and the related build scripts, such as `build-gui`, have been removed.
 
 ### Prepare media library assets
 
@@ -59,6 +49,20 @@ To generate a signed NSIS installer:
    - PowerShell: `$env:WIN_CSC_KEY_PASSWORD = "superSecret"`
 4. Build the NSIS installer only: building the APPX installer will fail if these environment variables are set.
    - `npm run dist -- -w nsis`
+
+#### Workaround for code signing issue in macOS
+
+Sometimes the macOS build process will result in a build which crashes on startup. If this happens, check in `Console`
+for an entry similar to this:
+
+```text
+failed to parse entitlements for Scratch[12345]: OSUnserializeXML: syntax error near line 1
+```
+
+This appears to be an issue with `codesign` itself. Rebooting your computer and trying to build again might help. Yes,
+really.
+
+See this issue for more detail: <https://github.com/electron/electron-osx-sign/issues/218>
 
 ### Make a semi-packaged build
 

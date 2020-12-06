@@ -2,20 +2,35 @@ directories:
   buildResources: buildResources
   output: dist
 appId: edu.mit.scratch.scratch-desktop
-productName: "Scratch Desktop"
+productName: "Scratch 3"
+publish: # empty provider list = don't publish
 mac:
   category: public.app-category.education
+  entitlements: buildResources/entitlements.mac.plist
+  extendInfo:
+    NSCameraUsageDescription: >-
+        This app requires camera access when taking a photo in the paint editor or using the video sensing blocks.
+    NSMicrophoneUsageDescription: >-
+        This app requires microphone access when recording sounds or detecting loudness.
+  gatekeeperAssess: true
+  hardenedRuntime: true
   icon: buildResources/ScratchDesktop.icns
+  provisioningProfile: embedded.provisionprofile
+  artifactName: "Scratch ${version}.${ext}"
   target:
     - dmg
     - mas
+dmg:
+  title: "Scratch ${version}"
 mas:
-  type: distribution
   category: public.app-category.education
-  entitlements: buildResources/entitlements.plist
+  entitlements: buildResources/entitlements.mas.plist
+  entitlementsInherit: buildResources/entitlements.mas.inherit.plist
+  hardenedRuntime: false
   icon: buildResources/ScratchDesktop.icns
-  files:
-    - embedded.provisionprofile
+masDev:
+  type: development
+  provisioningProfile: mas-dev.provisionprofile
 win:
   icon: buildResources/ScratchDesktop.ico
   target:
@@ -25,3 +40,7 @@ appx:
   identityName: ScratchFoundation.ScratchDesktop
   publisherDisplayName: "Scratch Foundation"
   publisher: "CN=2EC43DF1-469A-4119-9AB9-568A0A1FF65F"
+  artifactName: "Scratch ${version}.${ext}"
+nsis:
+  oneClick: false # allow user to choose per-user or per-machine
+  artifactName: "Scratch ${version} Setup.${ext}"
