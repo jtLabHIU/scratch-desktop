@@ -222,7 +222,7 @@ const createMainWindow = () => {
     const window = createWindow({
         width: defaultSize.width,
         height: defaultSize.height,
-        title: `${productName} ${version}` // something like "Scratch 3.14"
+        title: `${productName} ${version} - work with jtS3H by jtLab, Hokkaido Information University` // something like "Scratch 3.14"
     });
     const webContents = window.webContents;
 

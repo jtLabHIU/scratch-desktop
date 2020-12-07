@@ -178,7 +178,7 @@ const parseArgs = function () {
         break;
     case 'dist':
         doPackage = true;
-        doSign = true;
+        doSign = false;     // modified for jtS3H: original value: true
     }
 
     return {
