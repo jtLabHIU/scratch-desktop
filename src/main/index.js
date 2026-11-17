@@ -298,7 +298,7 @@ const createMainWindow = () => {
     const window = createWindow({
         width: defaultSize.width,
         height: defaultSize.height,
-        title: `${packageJson.productName} ${packageJson.version}` // something like "Scratch 3.14"
+        title: `${packageJson.productName} ${packageJson.version} - work with jtS3H by jtLab, Hokkaido Information University` // something like "Scratch 3.14"
     });
     const webContents = window.webContents;
 
